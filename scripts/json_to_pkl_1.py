@@ -28,5 +28,5 @@ df = df.sort_values(by="created_utc")
 output_path = args.output_path
 # with open(f"/home/dre/Downloads/reddit/data/processed_data/{formatted_filename}.pkl", "wb") as f:
 #     pickle.dump(df, f)
-with open(f"/Users/dre/Downloads/llm_data_process/pickle_file/{filename_without_extension}.pkl", "wb") as f:
+with open(f"/Users/dre/Downloads/llm_data_process/data/pickle_file/{filename_without_extension}.pkl", "wb") as f:
     pickle.dump(df, f)
