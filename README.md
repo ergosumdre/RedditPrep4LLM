@@ -21,7 +21,7 @@ The provided script efficiently processes raw Reddit text data, addressing commo
 3. Open a terminal and navigate to the repository directory.
 4. Run the cleaning script by executing the following command:
     ```bash
-    sh fineTuneDataset.sh /data/zst/subreddit_comments.zst
+    sh fineTuneDataset.sh data/zst/subreddit_comments.zst
     ```
 ## Contributions
 
