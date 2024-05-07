@@ -27,10 +27,6 @@ Prepare a JSON file tailored for language model fine-tuning, emphasizing convers
 
 Contributions and feedback are welcome! If you encounter any issues or have suggestions for improvements, feel free to open an issue or submit a pull request.
 
-## License
-
-This project is licensed under the [License Name] License. See the LICENSE file for details.
-
 ## Disclaimer
 
 Please note that while this script aims to improve the quality of Reddit data for language model fine-tuning, it may not cover all possible preprocessing requirements. Users are encouraged to review and adapt the script as needed for their specific datasets and use cases.
