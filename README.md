@@ -23,6 +23,7 @@ Prepare a JSON file tailored for language model fine-tuning, emphasizing convers
     ```bash
     sh fineTuneDataset.sh data/zst_file/subreddit_comments.zst
     ```
+5. The JSON generated in 'data/complete_json' can be used to Fine-tune a Large Language Model.
 ## Contributions
 
 Contributions and feedback are welcome! If you encounter any issues or have suggestions for improvements, feel free to open an issue or submit a pull request.
