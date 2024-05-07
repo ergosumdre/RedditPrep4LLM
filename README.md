@@ -17,11 +17,11 @@ The provided script efficiently processes raw Reddit text data, addressing commo
 ## Usage
 
 1. Clone or download the repository.
-2. Place your raw Reddit data file (e.g., `subreddit_comments.zst`) into the /data/zst directory.
+2. Place your raw Reddit data file (e.g., `subreddit_comments.zst`) into the data/zst directory.
 3. Open a terminal and navigate to the repository directory.
 4. Run the cleaning script by executing the following command:
     ```bash
-    sh fineTuneDataset.sh
+    sh fineTuneDataset.sh /data/zst/subreddit_comments.zst
     ```
 ## Contributions
 
