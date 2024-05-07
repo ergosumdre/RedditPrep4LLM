@@ -4,7 +4,7 @@ This repository contains a script for cleaning Reddit data to prepare it for fin
 
 ## Description
 
-The provided script efficiently processes raw Reddit text data, addressing common issues such as HTML tags, URLs, emojis, and special characters. It standardizes text formatting, removes noise, and enhances the quality of the dataset, optimizing it for training LLMs.
+Prepare a JSON file tailored for language model fine-tuning, emphasizing conversational threads sourced from a given subreddit post. This script refines Reddit text data, optimizing it for language model adaptation. Drawing inspiration from Sentdex's methodology, it adeptly manages HTML tags, URLs, emojis, and special characters, while also spotlighting conversational threads for nuanced context. By standardizing text formatting and eliminating extraneous noise, it ensures top-tier data quality for refining language models. Its adaptability enables seamless integration with diverse training requirements.
 
 ## Key Features
 
