@@ -5,12 +5,12 @@ import argparse
 import pickle
 import sqlite3
 import colorama
-from multiprocessing import Pool
+from multiprocessing import Pool, Lock
 
 # Set up command-line argument parser
 parser = argparse.ArgumentParser(description='Silly-man\'s multiprocessing: Run multiple instances of this script or make it better.')
-parser.add_argument('--db_path', type=str, default="dogbot.db", help='Path to the SQLite database')
-parser.add_argument('--pickle_path')#, type=str, default="/home/dre/Downloads/reddit/data/processed_data/dogs.pkl", help='Path to the input pickle file')
+parser.add_argument('--db_path', type=str)
+parser.add_argument('--pickle_path')
 
 args = parser.parse_args()
 
@@ -71,6 +71,8 @@ current_ill = 0
 total_samples = len(ids)
 num_ids = len(ids)
 
+lock = Lock()  # Create a lock object
+
 def process_id(idx):
     global sample_count, current_ill, num_ids
     current_ill += 1
@@ -91,23 +93,20 @@ def process_id(idx):
         out_str = chain[-1][1] + "\n\n### END CONVERSATION ###"
         train_string = in_str + out_str
         # Add to SQLite database if not already present
-        c.execute("SELECT * FROM dogbot WHERE id=?", (idx,))
-        if c.fetchone() is None:
-            c.execute("INSERT INTO dogbot (id, train_text, score, length) VALUES (?, ?, ?, ?)", (idx, train_string, reply_score, len(chain)))
-            conn.commit()
-            # Print added to database in green
-            sample_count += 1
-            #print(f"Current ill: {current_ill} \n Current num_ids: {num_ids}")
-            print(colorama.Fore.GREEN + f"Percentage: {(current_ill/num_ids*.17) * 5000}" + colorama.Style.RESET_ALL)
-        else:
-            # Print already in database in red
-            print(colorama.Fore.RED + "Already in database" + colorama.Style.RESET_ALL)
+        with lock:  # Acquire the lock before accessing the database
+            c.execute("SELECT * FROM dogbot WHERE id=?", (idx,))
+            if c.fetchone() is None:
+                c.execute("INSERT INTO dogbot (id, train_text, score, length) VALUES (?, ?, ?, ?)", (idx, train_string, reply_score, len(chain)))
+                conn.commit()
+                sample_count += 1
+                print(colorama.Fore.GREEN + f"Percentage: {(current_ill/num_ids*.17) * 5000}" + colorama.Style.RESET_ALL)
+            else:
+                print(colorama.Fore.RED + "Already in database" + colorama.Style.RESET_ALL)
     if sample_count >= hm_samples:
         return
-
 
 if __name__ == '__main__':
     with Pool(processes=os.cpu_count()) as pool:
         pool.map(process_id, ids)
 
-#conn.close()
+conn.close()
