@@ -7,7 +7,7 @@ import pickle
 # Set up command-line argument parser
 parser = argparse.ArgumentParser(description='Process JSON data to pickle file')
 parser.add_argument('json_path', type=str, help='Path to the JSON file')
-parser.add_argument('--output_path', type=str)#, default="/home/dre/Downloads/reddit/data/processed_data/dogs.pkl", help='Path to the output pickle file')
+parser.add_argument('--output_path', type=str)
 
 args = parser.parse_args()
 
@@ -26,7 +26,6 @@ df = df.sort_values(by="created_utc")
 
 # Save the dataframe to a pickle file
 output_path = args.output_path
-# with open(f"/home/dre/Downloads/reddit/data/processed_data/{formatted_filename}.pkl", "wb") as f:
-#     pickle.dump(df, f)
-with open(f"/Users/dre/Downloads/llm_data_process/data/pickle_file/{filename_without_extension}.pkl", "wb") as f:
+
+with open(f"data/pickle_file/{filename_without_extension}.pkl", "wb") as f:
     pickle.dump(df, f)
