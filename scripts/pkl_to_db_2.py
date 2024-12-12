@@ -88,6 +88,10 @@ def process_id(idx):
         # Create a new SQLite connection for each process
         conn = sqlite3.connect(args.db_path)
         c = conn.cursor()
+        # Create the table if it doesn't exist
+        c.execute('''CREATE TABLE IF NOT EXISTS dogbot
+                     (id TEXT PRIMARY KEY, train_text TEXT, score INT, length INT)''')
+        conn.commit()
         # Add to SQLite database if not already present
         with lock:  # Acquire the lock before accessing the database
             c.execute("SELECT * FROM dogbot WHERE id=?", (idx,))
