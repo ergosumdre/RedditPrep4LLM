@@ -14,15 +14,8 @@ parser.add_argument('--pickle_path')
 
 args = parser.parse_args()
 
-# Create SQLite database and table if they don't exist
-conn = sqlite3.connect(args.db_path)
-c = conn.cursor()
-c.execute('''CREATE TABLE IF NOT EXISTS dogbot
-             (id TEXT PRIMARY KEY, train_text TEXT, score INT, length INT)''')
-conn.commit()
-
+# Load data
 file = args.pickle_path
-
 df = pd.DataFrame()
 
 with open(file, 'rb') as f:
@@ -92,6 +85,9 @@ def process_id(idx):
         in_str += "## " + author_ids[final_reply_author] + ": ##\n"
         out_str = chain[-1][1] + "\n\n### END CONVERSATION ###"
         train_string = in_str + out_str
+        # Create a new SQLite connection for each process
+        conn = sqlite3.connect(args.db_path)
+        c = conn.cursor()
         # Add to SQLite database if not already present
         with lock:  # Acquire the lock before accessing the database
             c.execute("SELECT * FROM dogbot WHERE id=?", (idx,))
@@ -102,11 +98,10 @@ def process_id(idx):
                 print(colorama.Fore.GREEN + f"Percentage: {(current_ill/num_ids*.17) * 5000}" + colorama.Style.RESET_ALL)
             else:
                 print(colorama.Fore.RED + "Already in database" + colorama.Style.RESET_ALL)
+        conn.close()
     if sample_count >= hm_samples:
         return
 
 if __name__ == '__main__':
     with Pool(processes=os.cpu_count()) as pool:
         pool.map(process_id, ids)
-
-conn.close()
